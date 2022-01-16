@@ -22,7 +22,7 @@ def upgrade():
         'properties',
         Column('id', sa.UUID, primary_key=True),
         Column('bed', sa.SMALLINT, nullable=False),
-        Column('bad', sa.FLOAT, nullable=False),
+        Column('bath', sa.FLOAT, nullable=False),
         Column('parking_spots', sa.SMALLINT, nullable=False),
         Column('size', sa.FLOAT, nullable=False),
         Column('price', sa.MONEY, nullable=False)
