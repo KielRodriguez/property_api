@@ -1,14 +1,24 @@
+# Python
+from enum import Enum
+from typing import Optional
 from uuid import UUID
-from pydantic import BaseModel
 
+# Pydantic
+from pydantic import BaseModel, Field
 
-class Record(BaseModel):
-    id: UUID
-    bed: int
-    bad: float
-    parking_spots: int
-    size: float
-    price: float
+class PropertyType(Enum):
+    rent= "renta"
+    purchase= "compra"
+    both= "ambos"
+
+class Property(BaseModel):
+    id: Optional[UUID] = Field(default=None)
+    bed: int = Field(..., gt=0)
+    bath: float = Field(..., gt=0)
+    parking_spots: Optional[int] = Field(default=None)
+    size: float = Field(..., gt=0)
+    price: float = Field(..., gt=0)
+    type: PropertyType = Field(...)
 
     class Config:
         orm_mode = True
