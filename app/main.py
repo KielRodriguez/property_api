@@ -3,7 +3,9 @@ import os, sys
 from uuid import uuid4
 
 # FastAPI
-from fastapi import FastAPI, Body, Query, Path
+from fastapi import FastAPI, Depends, Body, Query, Path
+
+from fastapi_pagination import Page, Params, paginate
 
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 
@@ -23,10 +25,10 @@ app.add_middleware(DBSessionMiddleware, db_url=os.environ["DATABASE_URL"])
 def home():
     return {"ping": "pong"}
 
-@app.get("/api/properties")
-def get_properties():
+@app.get("/api/properties", response_model=Page[SchemaProperty])
+def get_properties(params: Params = Depends()):
     properties = db.session.query(ModelProperty).all()
-    return properties
+    return paginate(properties, params)
 
 @app.post("/api/properties", response_model=SchemaProperty)
 def create_property(property: SchemaProperty):
