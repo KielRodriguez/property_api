@@ -27,7 +27,7 @@ db_session = sessionmaker(engine)
 def get_property():
 
     model = Property(
-        bed = randrange(10),
+        bed = randrange(1,10),
         bath = randrange(1,5),
         parking_spots = randrange(1,5),
         size = choice([100, 120, 130, 200, 220, 250]),
