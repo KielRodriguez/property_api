@@ -6,7 +6,7 @@ Create Date: 2022-01-14 00:35:12.663230
 
 """
 from alembic import op
-from sqlalchemy import Column
+from sqlalchemy import Column, null
 import sqlalchemy.dialects.postgresql as sa
 
 
@@ -25,7 +25,8 @@ def upgrade():
         Column('bath', sa.FLOAT, nullable=False),
         Column('parking_spots', sa.SMALLINT, nullable=False),
         Column('size', sa.FLOAT, nullable=False),
-        Column('price', sa.MONEY, nullable=False)
+        Column('price', sa.FLOAT, nullable=False),
+        Column('type', sa.VARCHAR, nullable=False),
     )
 
 def downgrade():
