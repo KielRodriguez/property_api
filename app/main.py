@@ -5,7 +5,6 @@ from uuid import uuid4
 # FastAPI
 from fastapi import FastAPI, Body, Query, Path
 
-# SQLAlchemy
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 
 from .models import Property as ModelProperty
@@ -24,17 +23,20 @@ app.add_middleware(DBSessionMiddleware, db_url=os.environ["DATABASE_URL"])
 def home():
     return {"ping": "pong"}
 
+@app.get("/api/properties")
+def get_properties():
+    properties = db.session.query(ModelProperty).all()
+    return properties
 
-@app.post("/api/property", response_model=SchemaProperty)
+@app.post("/api/properties", response_model=SchemaProperty)
 def create_property(property: SchemaProperty):
-    print("======================")
-    print(property)
     db_property = ModelProperty(
         bed = property.bed,
-        bad = property.bad,
+        bath = property.bath,
         parking_spots = property.parking_spots,
         size = property.size,
-        price = property.price
+        price = property.price,
+        type = property.type.value
     )
     db.session.add(db_property)
     db.session.commit()
