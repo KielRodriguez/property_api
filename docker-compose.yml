@@ -1,6 +1,16 @@
 version: "3.8"
 
 services:
+  api:
+    build: .
+    command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 1; done; alembic upgrade head; uvicorn app.main:app --host 0.0.0.0 --port 8000'
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+
 
   postgres:
     container_name: postgres
@@ -12,7 +22,6 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
-
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
