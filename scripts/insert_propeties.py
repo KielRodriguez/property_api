@@ -1,7 +1,6 @@
 # Python
-import os
-from random import randrange, choice
-import sys
+import os, sys
+from random import randrange, choice, randint
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
@@ -15,7 +14,7 @@ from dotenv import load_dotenv
 
 from faker import Faker
 
-from models import Property
+from models import Property, Owner
 
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
@@ -37,11 +36,27 @@ def get_property():
 
     return model
 
+def get_owner():
+
+    model = Owner(
+        first_name = fake.first_name(),
+        last_name = fake.last_name(),
+        email = fake.email(),
+        properties = []
+    )
+
+    return model
+
+
 
 with db_session() as session:
     i = 0
 
-    for i in range(1000):
-        property = get_property()
-        session.add(property)
+    for i in range(100):
+        owner = get_owner()
+        for j in range(randint(1,2)):
+            property = get_property()
+            owner.properties.append(property)
+
+        session.add(owner)
         session.commit()
