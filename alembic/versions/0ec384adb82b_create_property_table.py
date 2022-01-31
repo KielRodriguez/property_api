@@ -6,7 +6,7 @@ Create Date: 2022-01-14 00:35:12.663230
 
 """
 from alembic import op
-from sqlalchemy import Column, null
+from sqlalchemy import Column
 import sqlalchemy.dialects.postgresql as sa
 
 
