@@ -53,4 +53,4 @@ def get_owners(params: Params = Depends()):
 @app.get("/api/owner/{owner_id}/properties", response_model=SchemaOwner)
 def get_properties_by_owner(owner_id:UUID):
     db_owner = db.session.query(ModelOwner).options(joinedload(ModelOwner.properties)).where(ModelOwner.id == owner_id).one()
-    return db_owner;
+    return db_owner

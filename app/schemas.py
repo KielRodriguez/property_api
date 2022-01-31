@@ -12,11 +12,11 @@ class PropertyType(Enum):
     both= "ambos"
 
 class PropertyBase(BaseModel):
-    bed: int = Field(..., gt=0)
-    bath: float = Field(..., gt=0)
+    bed: int = Field(...)
+    bath: float = Field(...)
     parking_spots: Optional[int] = Field(default=None)
-    size: float = Field(..., gt=0)
-    price: float = Field(..., gt=0)
+    size: float = Field(...)
+    price: float = Field(...)
     type: PropertyType = Field(...)
 
 class PropertyCreate(PropertyBase):
@@ -39,8 +39,8 @@ class OwnerCreate(OwnerBase):
     pass
 
 class Owner(OwnerBase):
-    id: Optional[UUID] = Field(default=None)
+    id: Optional[UUID]
     properties: List[Property]
 
     class Config:
-        orm_model = True
+        orm_mode = True
